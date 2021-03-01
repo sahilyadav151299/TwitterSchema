@@ -1,0 +1,66 @@
+1) Fetch all users name from database.
+
+SELECT ud.name
+FROM UsersDetails ud;
+
+
+2) Fetch all tweets of user by user id most recent tweets first.
+
+SELECT t.message
+FROM Tweets t
+WHERE t.user_id = 'U01/U02/U03'
+ORDER BY DESC;
+
+
+3) Fetch like count of particular tweet by tweet id.
+
+SELECT COUNT(lt.like_id)
+FROM LikedTweets lt	
+WHERE lt.tweet_id = 'T01/T02';
+
+
+4) Fetch retweet count of particular tweet by tweet id.
+
+SELECT COUNT(r.retweet_id)
+FROM Retweets r
+WHERE r.tweet_id = 'T01/T02';
+
+
+5) Fetch comment count of particular tweet by tweet id.
+
+SELECT COUNT(ct.comment_id)
+FROM CommentedTweets ct
+WHERE ct.tweet_id = 'T01/T02';
+
+
+6) Fetch all user’s name who have retweeted particular tweet by tweet id.
+
+SELECT ud.name
+FROM UsersDetails ud INNER JOIN Retweets rt
+ON ud.user_id = rt.retweeted_user_id;
+Where rt.tweet_id = 'T01/T02';
+
+
+7) Fetch all commented tweet’s content for particular tweet by tweet id.
+
+SELECT ct.message
+FROM CommentedTweets ct
+WHERE ct.tweet_id = 'T01/T02';
+
+
+8) Fetch user’s timeline (All tweets from users whom I am following with 
+tweet content and user name who has tweeted it).
+
+
+SELCT ts.tweet_id, ts.message, ud.name
+FROM UserDetails ud INNER JOIN Tweets ts
+On ud.user_id = ts.user_id
+WHERE ts.user_id 
+IN ( SELECT f.following_user_id
+     FROM Follows f
+     WHERE f.follower_user_id = 'U01/U02/U03' );
+
+
+
+
+
